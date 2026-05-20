@@ -17,11 +17,6 @@ export function Sidebar() {
           Categorias
         </a>
       </nav>
-
-      <div className="mt-auto pt-96 text-sm text-gray-300">
-        <p className="font-semibold text-white">Letícia Reis</p>
-        <p>leticia@email.com</p>
-      </div>
     </aside>
   );
 }
