@@ -295,3 +295,29 @@ O sistema permite:
   - prioridade
   - responsável
   - categorias
+# Telas
+## Home/kanban de tarefas
+<img width="1892" height="890" alt="image" src="https://github.com/user-attachments/assets/18ddd058-7a3c-4ba6-800b-3a23f271d4f9" />
+
+## Nova terefa
+<img width="1888" height="869" alt="image" src="https://github.com/user-attachments/assets/0a4e84db-e18c-4e88-97df-ef00b6ffca31" />
+
+## Editar tarefa
+<img width="1877" height="855" alt="image" src="https://github.com/user-attachments/assets/017e7d49-68c3-4ca0-8f86-cdbada6b5e36" />
+
+## Excluir tarefa
+<img width="1873" height="915" alt="image" src="https://github.com/user-attachments/assets/321d1c71-92a6-4a30-a12c-7723273581b9" />
+
+## Detalhes de tarefa
+<img width="1845" height="902" alt="image" src="https://github.com/user-attachments/assets/94935dbe-e818-45c2-a9e9-63513cad5d78" />
+
+## Lista/Criar categoria
+<img width="1898" height="716" alt="image" src="https://github.com/user-attachments/assets/f3fce841-6060-4c0e-86df-3e9e43375114" />
+
+##
+
+
+
+
+
+
