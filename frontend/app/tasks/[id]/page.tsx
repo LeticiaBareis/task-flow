@@ -1,4 +1,6 @@
 import Link from "next/link";
+
+import { Sidebar } from "@/components/Sidebar";
 import { DeleteTaskButton } from "@/components/DeleteTaskButton";
 import { getTaskById } from "@/services/task.service";
 
@@ -18,97 +20,135 @@ const priorityLabel: Record<string, string> = {
   HIGH: "Alta",
 };
 
+const priorityClass: Record<string, string> = {
+  LOW: "bg-green-100 text-green-700",
+  MEDIUM: "bg-orange-100 text-orange-700",
+  HIGH: "bg-red-100 text-red-700",
+};
+
 export default async function TaskDetailsPage({ params }: Props) {
   const { id } = await params;
   const task = await getTaskById(id);
 
   return (
-    <main className="min-h-screen bg-slate-50 p-6">
-      <div className="mx-auto max-w-xl rounded-2xl bg-white p-6 shadow-sm">
-        <div className="mb-6 flex items-center justify-between">
-          <Link href="/" className="text-xl text-slate-500 hover:text-slate-900">
-            ×
+    <div className="flex min-h-screen bg-slate-50">
+      <Sidebar />
+
+      <main className="flex-1 p-10">
+        <div className="mx-auto w-full max-w-5xl">
+          <Link
+            href="/"
+            className="mb-6 inline-block font-semibold text-purple-700 hover:text-purple-900"
+          >
+            ← Voltar para tarefas
           </Link>
 
-          <div className="flex gap-2">
-            <Link
-              href={`/tasks/${task.id}/edit`}
-              className="rounded-lg bg-purple-100 px-4 py-2 text-sm font-semibold text-purple-700"
-            >
-              Editar
-            </Link>
+          <div className="rounded-3xl bg-white p-8 shadow-sm">
+            <div className="mb-8 flex flex-col gap-4 border-b border-slate-200 pb-6 md:flex-row md:items-start md:justify-between">
+              <div>
+                <div className="mb-3 flex flex-wrap gap-2">
+                  <span
+                    className={`rounded-lg px-3 py-1 text-sm font-bold ${
+                      priorityClass[String(task.priority)] ??
+                      "bg-gray-100 text-gray-700"
+                    }`}
+                  >
+                    Prioridade {priorityLabel[String(task.priority)] ?? "-"}
+                  </span>
 
-            <DeleteTaskButton taskId={task.id} />
-          </div>
-        </div>
+                  <span className="rounded-lg bg-blue-100 px-3 py-1 text-sm font-bold text-blue-700">
+                    {statusLabel[String(task.status)] ?? "-"}
+                  </span>
+                </div>
 
-        <div className="mb-4 flex items-start justify-between gap-3">
-          <h1 className="text-2xl font-bold text-slate-900">{task.title}</h1>
+                <h1 className="text-3xl font-bold text-slate-900">
+                  {task.title}
+                </h1>
 
-          <span className="rounded-lg bg-red-100 px-3 py-1 text-sm font-semibold text-red-700">
-            {priorityLabel[String(task.priority)] ?? "-"}
-          </span>
-        </div>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-500">
+                  {task.description || "Sem descrição informada."}
+                </p>
+              </div>
 
-        <span className="mb-6 inline-block rounded-lg bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-700">
-          {statusLabel[String(task.status)] ?? "-"}
-        </span>
-
-        <div className="space-y-5 border-t border-slate-200 pt-5">
-          <DetailItem label="Responsável" value={task.user?.name ?? "-"} />
-
-          <div>
-            <p className="mb-2 text-sm font-semibold text-slate-500">
-              Categorias
-            </p>
-
-            <div className="flex flex-wrap gap-2">
-              {task.categories?.map((category: any) => (
-                <span
-                  key={category.id}
-                  className="rounded-lg bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-700"
+              <div className="flex shrink-0 gap-2">
+                <Link
+                  href={`/tasks/${task.id}/edit`}
+                  className="inline-flex items-center gap-2 rounded-xl bg-purple-700 px-4 py-3 text-sm font-bold text-white transition hover:bg-purple-800"
                 >
-                  {category.name}
-                </span>
-              ))}
+                  Editar
+                </Link>
+
+                <DeleteTaskButton taskId={task.id} />
+              </div>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <DetailCard label="Responsável" value={task.user?.name ?? "-"} />
+
+              <DetailCard
+                label="Data de vencimento"
+                value={
+                  task.dueDate
+                    ? new Date(task.dueDate).toLocaleDateString("pt-BR")
+                    : "-"
+                }
+              />
+
+              <DetailCard
+                label="Status"
+                value={statusLabel[String(task.status)] ?? "-"}
+              />
+
+              <DetailCard
+                label="Prioridade"
+                value={priorityLabel[String(task.priority)] ?? "-"}
+              />
+            </div>
+
+            <div className="mt-6 rounded-2xl bg-slate-50 p-5">
+              <p className="mb-3 text-sm font-bold text-slate-500">
+                Categorias
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {task.categories?.length ? (
+                  task.categories.map((category: any) => (
+                    <span
+                      key={category.id}
+                      className="rounded-lg bg-purple-100 px-3 py-1 text-sm font-bold text-purple-700"
+                    >
+                      {category.name}
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-sm text-slate-500">
+                    Nenhuma categoria vinculada.
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-6 rounded-2xl bg-slate-50 p-5">
+              <p className="mb-2 text-sm font-bold text-slate-500">
+                Descrição
+              </p>
+
+              <p className="text-sm leading-6 text-slate-800">
+                {task.description || "Sem descrição informada."}
+              </p>
             </div>
           </div>
-
-          <DetailItem
-            label="Data de vencimento"
-            value={
-              task.dueDate
-                ? new Date(task.dueDate).toLocaleDateString("pt-BR")
-                : "-"
-            }
-          />
-
-          <DetailItem
-            label="Descrição"
-            value={task.description || "-"}
-            multiline
-          />
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
 
-function DetailItem({
-  label,
-  value,
-  multiline,
-}: {
-  label: string;
-  value: string;
-  multiline?: boolean;
-}) {
+function DetailCard({ label, value }: { label: string; value: string }) {
   return (
-    <div>
-      <p className="mb-1 text-sm font-semibold text-slate-500">{label}</p>
-      <p className={`text-sm text-slate-800 ${multiline ? "leading-6" : ""}`}>
-        {value}
-      </p>
+    <div className="rounded-2xl bg-slate-50 p-5">
+      <p className="mb-1 text-sm font-bold text-slate-500">{label}</p>
+      <p className="font-semibold text-slate-900">{value}</p>
     </div>
   );
 }
