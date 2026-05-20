@@ -185,9 +185,6 @@ export function TaskForm({
                 alignItems: "center",
               }}
             >
-              <h2 className="text-lg font-bold text-slate-900">
-                {mode === "edit" ? "Editar Tarefa" : "Nova Tarefa"}
-              </h2>
 
             </Stack>
 
