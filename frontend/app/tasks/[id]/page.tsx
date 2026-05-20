@@ -65,9 +65,6 @@ export default async function TaskDetailsPage({ params }: Props) {
                   {task.title}
                 </h1>
 
-                <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-500">
-                  {task.description || "Sem descrição informada."}
-                </p>
               </div>
 
               <div className="flex shrink-0 gap-2">
